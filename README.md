@@ -16,16 +16,24 @@ BLANC = (255, 255, 255)
 NOIR = (0, 0, 0)
 
 # Chargement des images
-porte_heureuse = pygame.image.load("porte.jpg")  # Remplace par ton chemin d'image
-porte_triste = pygame.image.load("porte.jpg")      # Remplace par ton chemin d'image
+try:
+    porte_heureuse = pygame.image.load("porte.jpg")  # Remplace par ton chemin d'image
+    porte_triste = pygame.image.load("porte.jpg")      # Remplace par ton chemin d'image
+except pygame.error as e:
+    print("Erreur lors du chargement des images :", e)
+    sys.exit()
 
 # Redimensionnement des images pour qu'elles rentrent dans la fenêtre
 porte_heureuse = pygame.transform.scale(porte_heureuse, (300, 500))
 porte_triste = pygame.transform.scale(porte_triste, (300, 500))
 
 # Chargement des sons
-son_heureux = pygame.mixer.Sound("son.wav")  # Remplace par ton chemin de son
-son_triste = pygame.mixer.Sound("son.wav")    # Remplace par ton chemin de son
+try:
+    son_heureux = pygame.mixer.Sound("son.wav")  # Remplace par ton chemin de son
+    son_triste = pygame.mixer.Sound("son.wav")    # Remplace par ton chemin de son
+except pygame.error as e:
+    print("Erreur lors du chargement des sons :", e)
+    sys.exit()
 
 def afficher_texte(texte, x, y, taille=36, couleur=NOIR):
     police = pygame.font.Font(None, taille)
