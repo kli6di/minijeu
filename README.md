@@ -1,87 +1,97 @@
-import pygame
-import sys
-import time
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Jeu des Portes</title>
+    <style>
+        /* Style CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-# Initialisation de Pygame
-pygame.init()
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-# Configuration de la fenêtre
-largeur_fenetre = 800
-hauteur_fenetre = 600
-fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))
-pygame.display.set_caption("Le Jeu des Portes")
+        h1 {
+            color: #333;
+        }
 
-# Couleurs
-BLANC = (255, 255, 255)
-NOIR = (0, 0, 0)
+        .portes {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
 
-# Chargement des images
-try:
-    porte_heureuse = pygame.image.load("porte.jpg")  # Remplace par ton chemin d'image
-    porte_triste = pygame.image.load("porte.jpg")      # Remplace par ton chemin d'image
-except pygame.error as e:
-    print("Erreur lors du chargement des images :", e)
-    sys.exit()
+        .porte {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-# Redimensionnement des images pour qu'elles rentrent dans la fenêtre
-porte_heureuse = pygame.transform.scale(porte_heureuse, (300, 500))
-porte_triste = pygame.transform.scale(porte_triste, (300, 500))
+        .porte:hover {
+            transform: scale(1.1);
+        }
 
-# Chargement des sons
-try:
-    son_heureux = pygame.mixer.Sound("son.wav")  # Remplace par ton chemin de son
-    son_triste = pygame.mixer.Sound("son.wav")    # Remplace par ton chemin de son
-except pygame.error as e:
-    print("Erreur lors du chargement des sons :", e)
-    sys.exit()
+        .porte img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
 
-def afficher_texte(texte, x, y, taille=36, couleur=NOIR):
-    police = pygame.font.Font(None, taille)
-    surface_texte = police.render(texte, True, couleur)
-    fenetre.blit(surface_texte, (x, y))
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choisis une porte !</h1>
+        <div class="portes">
+            <div class="porte" id="porte-heureuse">
+                <img src="porte_heureuse.jpg" alt="Porte Heureuse">
+            </div>
+            <div class="porte" id="porte-triste">
+                <img src="porte_triste.jpg" alt="Porte Triste">
+            </div>
+        </div>
+        <p id="message"></p>
+    </div>
 
-def afficher_portes():
-    fenetre.fill(BLANC)
-    afficher_texte("Choisis une porte !", 250, 50)
-    fenetre.blit(porte_heureuse, (100, 150))  # Porte heureuse à gauche
-    fenetre.blit(porte_triste, (450, 150))   # Porte triste à droite
-    pygame.display.flip()
+    <script>
+        // JavaScript
+        const porteHeureuse = document.getElementById("porte-heureuse");
+        const porteTriste = document.getElementById("porte-triste");
+        const message = document.getElementById("message");
 
-def afficher_salle_heureuse():
-    fenetre.fill(BLANC)
-    afficher_texte("✨✨✨ Félicitations ! Tu es dans la salle heureuse ! ✨✨✨", 50, 250)
-    pygame.display.flip()
-    son_heureux.play()
-    time.sleep(3)  # Attend 3 secondes pour entendre le son
+        porteHeureuse.addEventListener("click", () => {
+            message.textContent = "✨✨✨ Félicitations ! Tu es dans la salle heureuse ! ✨✨✨";
+            message.style.color = "green";
+            jouerSon("son_heureux.wav"); // Joue un son heureux
+        });
 
-def afficher_salle_triste():
-    fenetre.fill(BLANC)
-    afficher_texte("🌧️🌧️🌧️ Oh non... Tu es dans la salle triste... 🌧️🌧️🌧️", 50, 250)
-    pygame.display.flip()
-    son_triste.play()
-    time.sleep(3)  # Attend 3 secondes pour entendre le son
+        porteTriste.addEventListener("click", () => {
+            message.textContent = "🌧️🌧️🌧️ Oh non... Tu es dans la salle triste... 🌧️🌧️🌧️";
+            message.style.color = "red";
+            jouerSon("son_triste.wav"); // Joue un son triste
+        });
 
-def main():
-    running = True
-    while running:
-        afficher_portes()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
-                sys.exit()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-
-                # Si l'utilisateur clique sur la porte heureuse
-                if 100 <= x <= 400 and 150 <= y <= 650:
-                    afficher_salle_heureuse()
-
-                # Si l'utilisateur clique sur la porte triste
-                elif 450 <= x <= 750 and 150 <= y <= 650:
-                    afficher_salle_triste()
-
-if __name__ == "__main__":
-    main()
+        function jouerSon(son) {
+            const audio = new Audio(son);
+            audio.play();
+        }
+    </script>
+</body>
+</html>
