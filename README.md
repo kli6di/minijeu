@@ -104,10 +104,10 @@
         <h1>Choisis une porte !</h1>
         <div class="portes">
             <div class="porte" id="porte-heureuse">
-                <img src="porte_heureuse.jpg" alt="Porte Heureuse">
+                <img src="porte.avif" alt="Porte Heureuse">
             </div>
             <div class="porte" id="porte-triste">
-                <img src="porte_triste.jpg" alt="Porte Triste">
+                <img src="porte.avif" alt="Porte Triste">
             </div>
         </div>
         <p id="message"></p>
